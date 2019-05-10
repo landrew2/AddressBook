@@ -10,6 +10,8 @@ public class User {
     public User() {
     }
 
+
+    //could just make the location ones "" when not connected to the gps
     public User(String name, String address, String locationLat, String locationLong, String phoneNum) {
         Name = name;
         Address = address;
