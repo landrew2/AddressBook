@@ -12,15 +12,11 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,7 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +72,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mMyLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        mMyHandler = new Handler();
+
         mAuth = FirebaseAuth.getInstance();
         mMyDB = FirebaseDatabase.getInstance();
         mDBRef = mMyDB.getReference();
@@ -93,7 +90,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onResume() {
         super.onResume();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // gets permissions if it doesnt have them
+            // gets permissions if it doesn't have them
             Toast.makeText(MapsActivity.this,
                     "Insufficient Permissions", Toast.LENGTH_LONG).show();
             ActivityCompat.requestPermissions(this,
@@ -154,25 +151,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
+        String id = mAuth.getCurrentUser().getUid();
 
-    }
+        mLastLocation = new LatLng(location.getLatitude(),location.getLongitude());
+        mDBRef.child(id).child("LocationLat").setValue(location.getLatitude());
+        mDBRef.child(id).child("LocationLong").setValue(location.getLongitude());
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    private void mapToggle(){
         mDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -214,7 +198,67 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-        mLocationToggle = !mLocationToggle;
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    private void mapToggle(){
+        mDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String,LatLng> locationList= new HashMap<>();
+                User tmp;
+                LatLng coords  = null;
+                mLocationToggle = !mLocationToggle;
+                //using the address
+                if (mLocationToggle){
+                    for (DataSnapshot user: dataSnapshot.getChildren()) {
+                        tmp = user.getValue(User.class);
+                        String address = tmp.Address;
+                        coords = getLocationFromAddress(getApplicationContext(),address);
+                        if (coords != null){
+                            locationList.put(tmp.Name,coords);
+                        }
+                    }
+                }
+
+                //using the locations
+                else{
+                    for (DataSnapshot user: dataSnapshot.getChildren()){
+                        tmp = user.getValue(User.class);
+                        if (!tmp.LocationLat.isEmpty() && !tmp.LocationLong.isEmpty()){
+                            coords = new LatLng(parseDouble(tmp.LocationLat),parseDouble(tmp.LocationLong));
+                            locationList.put(tmp.Name,coords);
+                        }
+
+                    }
+                }
+
+                //TODO once login is done we can use the username to get it right out of the db
+                UpdateMap mapUpdate = new UpdateMap(locationList,mLastLocation);
+                mMyHandler.post(mapUpdate);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private class UpdateMap implements Runnable {
@@ -231,8 +275,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng location;
             mMap.clear();
             for (String name: mLocationList.keySet()){
-
-
                 location = mLocationList.get(name);
 
                 mMap.addMarker(new MarkerOptions().position(location).title(name));
