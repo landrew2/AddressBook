@@ -184,8 +184,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String id = mAuth.getCurrentUser().getUid();
 
         mLastLocation = new LatLng(location.getLatitude(),location.getLongitude());
-        mDBRef.child(id).child("LocationLat").setValue(location.getLatitude());
-        mDBRef.child(id).child("LocationLong").setValue(location.getLongitude());
+        mDBRef.child(id).child("LocationLat").setValue(Double.toString(location.getLatitude()));
+        mDBRef.child(id).child("LocationLong").setValue(Double.toString(location.getLongitude()));
 
         mDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -296,6 +296,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng mMyLocation;
 
         public UpdateMap(Map<String,LatLng> locations, LatLng myLocation) {
+            mLocationList = new HashMap<>();
             mLocationList.putAll(locations);
             mMyLocation = myLocation;
         }
@@ -322,8 +323,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         List<Address> address;
         LatLng locationLatLong = null;
 
+        if (strAddress == null) {
+            return null;
+        }
         try {
             // May throw an IOException
+
             address = coder.getFromLocationName(strAddress, 1);
             if (address == null) {
                 return null;
