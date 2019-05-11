@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Address Book</string>
+    <string name="server_client_ID">1097866758962-dhpet46vumeqlkhn5iimebd2jp9lf2nn.apps.googleusercontent.com</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_navigation">Navigation</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -15,4 +16,5 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
 </resources>

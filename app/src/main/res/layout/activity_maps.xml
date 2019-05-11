@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fab_coordinator_layout"
@@ -22,8 +23,6 @@
         tools:context=".MapsActivity"></fragment>
 
 
-
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/locationToggle"
         android:layout_width="wrap_content"
@@ -37,5 +36,6 @@
 
 
 </android.support.design.widget.CoordinatorLayout>
+
 
 

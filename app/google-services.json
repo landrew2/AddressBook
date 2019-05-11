@@ -15,6 +15,15 @@
       },
       "oauth_client": [
         {
+          "client_id": "1097866758962-6c99hulsrlds969v4gsns1v5v498p0ot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.addressbook",
+            "certificate_hash": "a5ff359659d21056609a1a0bb5274d5572688d68"
+          }
+        },
+        {
+
           "client_id": "1097866758962-141tlqmkmgput1ia164q5e76tv2rlr8d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
