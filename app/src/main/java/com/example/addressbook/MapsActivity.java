@@ -3,6 +3,7 @@ package com.example.addressbook;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,9 +13,13 @@ import android.location.LocationManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -65,11 +70,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps_with_navigation);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
 
   /*
@@ -106,6 +120,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMyDB = FirebaseDatabase.getInstance();
         mDBRef = mMyDB.getReference();
         mDBRef.child("Users");
+
+
 
     }
     @Override
@@ -174,6 +190,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onClick(View v) {
         switch (v.getId()){
            case R.id.locationToggle:
+               Intent intent = new Intent(getBaseContext(),UserProfileActivity.class);
+               startActivity(intent);
                 mapToggle();
                 break;
         }
@@ -184,8 +202,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String id = mAuth.getCurrentUser().getUid();
 
         mLastLocation = new LatLng(location.getLatitude(),location.getLongitude());
-        mDBRef.child(id).child("LocationLat").setValue(location.getLatitude());
-        mDBRef.child(id).child("LocationLong").setValue(location.getLongitude());
+        mDBRef.child(id).child("LocationLat").setValue(Double.toString(location.getLatitude()));
+        mDBRef.child(id).child("LocationLong").setValue(Double.toString(location.getLongitude()));
 
         mDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -296,6 +314,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng mMyLocation;
 
         public UpdateMap(Map<String,LatLng> locations, LatLng myLocation) {
+            mLocationList = new HashMap<>();
             mLocationList.putAll(locations);
             mMyLocation = myLocation;
         }
@@ -322,8 +341,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         List<Address> address;
         LatLng locationLatLong = null;
 
+        if (strAddress == null) {
+            return null;
+        }
         try {
             // May throw an IOException
+
             address = coder.getFromLocationName(strAddress, 1);
             if (address == null) {
                 return null;
