@@ -205,6 +205,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDBRef.child(id).child("LocationLat").setValue(Double.toString(location.getLatitude()));
         mDBRef.child(id).child("LocationLong").setValue(Double.toString(location.getLongitude()));
 
+
         mDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

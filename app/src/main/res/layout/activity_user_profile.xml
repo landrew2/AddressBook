@@ -7,7 +7,7 @@
     tools:context=".UserProfileActivity">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/updateButton"
         android:layout_width="250dp"
         android:layout_height="74dp"
         android:layout_alignParentBottom="true"
@@ -74,13 +74,13 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editTextName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Put name here"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:background="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -103,13 +103,13 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Put email here"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:ems="10"
+                    android:background="@null"
+                    android:inputType="textEmailAddress" />
 
                 <View
                     android:layout_width="match_parent"
@@ -132,13 +132,13 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editTextPhoneNum"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="put phone number here"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:ems="10"
+                    android:background="@null"
+                    android:inputType="phone" />
 
                 <View
                     android:layout_width="match_parent"
@@ -161,13 +161,13 @@
                     android:textColor="@color/headings"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/editTextAddress"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="put address here"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:ems="10"
+                    android:background="@null"
+                    android:inputType="textPostalAddress" />
 
                 <View
                     android:layout_width="match_parent"
