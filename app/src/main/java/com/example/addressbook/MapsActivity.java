@@ -45,7 +45,7 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener, LocationListener {
+public class MapsActivity extends Navigation implements OnMapReadyCallback, View.OnClickListener, LocationListener {
     private final int LOCATION_PERMISSION_REQUEST = 99;
 
 
@@ -63,31 +63,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FirebaseDatabase mMyDB;
     private DatabaseReference mDBRef;
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState == null)
+            savedInstanceState = new Bundle();
+        savedInstanceState.putInt("ContentView",R.layout.activity_maps_with_navigation);
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_with_navigation);
+        //setContentView(R.layout.activity_maps_with_navigation);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        //DrawerLayout drawer = findViewById(R.id.drawer_layout);
+       // NavigationView navigationView = findViewById(R.id.nav_view);
+       // ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        //        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawer.addDrawerListener(toggle);
+        //toggle.syncState();
 
 
-  /*
-        Button button = (Button) findViewById(R.id.signout);
+
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -99,14 +103,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         };
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-            }
-        });
-    }
-*/
+
 
 
         mLocationToggleButton = (FloatingActionButton) findViewById(R.id.locationToggle);
@@ -119,7 +116,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mAuth = FirebaseAuth.getInstance();
         mMyDB = FirebaseDatabase.getInstance();
         mDBRef = mMyDB.getReference();
-        mDBRef.child("Users");
+        //mDBRef.child("Users");
 
 
 
@@ -190,9 +187,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onClick(View v) {
         switch (v.getId()){
            case R.id.locationToggle:
-               Intent intent = new Intent(getBaseContext(),UserProfileActivity.class);
-               startActivity(intent);
-                mapToggle();
+               Toast.makeText(MapsActivity.this,
+                       "Switching between Address and Physical Location", Toast.LENGTH_LONG).show();
+
+               mapToggle();
                 break;
         }
     }
