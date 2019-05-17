@@ -44,8 +44,8 @@
 
         <activity
             android:name=".MapsActivity"
-
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".UserProfileActivity" />

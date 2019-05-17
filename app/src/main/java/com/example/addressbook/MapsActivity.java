@@ -3,6 +3,7 @@ package com.example.addressbook;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,9 +13,13 @@ import android.location.LocationManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -40,7 +45,7 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener, LocationListener {
+public class MapsActivity extends Navigation implements OnMapReadyCallback, View.OnClickListener, LocationListener {
     private final int LOCATION_PERMISSION_REQUEST = 99;
 
 
@@ -58,22 +63,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FirebaseDatabase mMyDB;
     private DatabaseReference mDBRef;
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState == null)
+            savedInstanceState = new Bundle();
+        savedInstanceState.putInt("ContentView",R.layout.activity_maps_with_navigation);
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        //setContentView(R.layout.activity_maps_with_navigation);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        //DrawerLayout drawer = findViewById(R.id.drawer_layout);
+       // NavigationView navigationView = findViewById(R.id.nav_view);
+       // ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        //        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawer.addDrawerListener(toggle);
+        //toggle.syncState();
 
-  /*
-        Button button = (Button) findViewById(R.id.signout);
+
+
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -85,14 +103,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         };
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-            }
-        });
-    }
-*/
+
 
 
         mLocationToggleButton = (FloatingActionButton) findViewById(R.id.locationToggle);
@@ -105,7 +116,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mAuth = FirebaseAuth.getInstance();
         mMyDB = FirebaseDatabase.getInstance();
         mDBRef = mMyDB.getReference();
-        mDBRef.child("Users");
+        //mDBRef.child("Users");
+
+
 
     }
     @Override
@@ -174,7 +187,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onClick(View v) {
         switch (v.getId()){
            case R.id.locationToggle:
-                mapToggle();
+               Toast.makeText(MapsActivity.this,
+                       "Switching between Address and Physical Location", Toast.LENGTH_LONG).show();
+
+               mapToggle();
                 break;
         }
     }
