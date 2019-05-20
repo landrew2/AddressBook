@@ -135,7 +135,7 @@ public class UserProfileActivity extends Navigation {
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
             myRef.child(id).child("Name").setValue(name);
-            myRef.child(id).child("Address8").setValue(address);
+            myRef.child(id).child("Address").setValue(address);
             myRef.child(id).child("PhoneNum").setValue(phonenum);
             myRef.child(id).child("EmailAddress").setValue(currentUserEmail);
 
