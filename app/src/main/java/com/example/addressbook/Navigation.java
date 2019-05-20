@@ -12,13 +12,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
+    private EditText mEmail;
+    private String currentUserEmail;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +42,13 @@ public class Navigation extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -78,22 +91,22 @@ public class Navigation extends AppCompatActivity
         if (id == R.id.nav_all_contacts) {
             // Handle the emmanuel
             Toast.makeText(Navigation.this,
-                    "all contacts page Clicked", Toast.LENGTH_LONG).show();
+                    "Work in progress", Toast.LENGTH_LONG).show();
 
         } else if (id == R.id.nav_profile) {
-            Toast.makeText(Navigation.this,
-                    "Profile Clicked", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getBaseContext(),UserProfileActivity.class);
+            // Toast.makeText(Navigation.this,
+            //       "Profile Clicked", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getBaseContext(), UserProfileActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_map) {
-            Toast.makeText(Navigation.this,
-                    "Map Clicked", Toast.LENGTH_LONG).show();
+            // Toast.makeText(Navigation.this,
+            //    "Map Clicked", Toast.LENGTH_LONG).show();
 
             startActivity(new Intent(getBaseContext(), MapsActivity.class));
         } else if (id == R.id.nav_signout) {
-            Toast.makeText(Navigation.this,
-                    "Sign out Clicked", Toast.LENGTH_LONG).show();
+            //Toast.makeText(Navigation.this,
+            //       "Sign out Clicked", Toast.LENGTH_LONG).show();
 
             mAuth.signOut();
             startActivity(new Intent(Navigation.this, LoginActivity.class));
