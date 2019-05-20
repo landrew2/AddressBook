@@ -2,6 +2,7 @@ package com.example.addressbook;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -95,6 +96,8 @@ public class Navigation extends AppCompatActivity
                     "Sign out Clicked", Toast.LENGTH_LONG).show();
 
             mAuth.signOut();
+            startActivity(new Intent(Navigation.this, LoginActivity.class));
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
