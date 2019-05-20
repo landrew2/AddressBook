@@ -203,6 +203,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback, View
         mDBRef.child(id).child("LocationLat").setValue(Double.toString(location.getLatitude()));
         mDBRef.child(id).child("LocationLong").setValue(Double.toString(location.getLongitude()));
 
+
         mDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
