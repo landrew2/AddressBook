@@ -87,6 +87,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 String phone_fb = (String) dataSnapshot.child("PhoneNum").getValue();
                 String address_fb = (String) dataSnapshot.child("Address").getValue();
 
+
                 Name_.setText(name_fb);
                 PhoneNum_.setText(phone_fb);
                 Address_.setText(address_fb);
@@ -116,18 +117,26 @@ public class UserProfileActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(address) && !TextUtils.isEmpty(phonenum)) {
 
             String id = mAuth2.getCurrentUser().getUid();
-            LatLng location = getLocationFromAddress(getApplicationContext(), address);
-            if(location == null)
+            //LatLng location = getLocationFromAddress(getApplicationContext(), address);
+            /*if(location == null)
             {
                 location = new LatLng(-34,151);
             }
+            */
+            //User user = new User(name, address, String.valueOf(location.latitude), String.valueOf(location.longitude), phonenum, currentUserEmail);
 
-            User user = new User(name, address, String.valueOf(location.latitude), String.valueOf(location.longitude), phonenum, currentUserEmail);
 
-            String tvLocation = ("Lat: " + location.latitude + "   " + "Long: " + location.longitude);
+            String tvLocation = ("Lat: " + locationLat + "   " + "Long: " + locationLong);
             location_.setText(tvLocation);
 
-            userref.child(id).setValue(user);
+            //userref.child(id).setValue(user);
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+
+            myRef.child(id).child("Name").setValue(name);
+            myRef.child(id).child("Address8").setValue(address);
+            myRef.child(id).child("PhoneNum").setValue(phonenum);
+            myRef.child(id).child("EmailAddress").setValue(currentUserEmail);
+
 
         }
 
