@@ -187,8 +187,15 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback, View
     public void onClick(View v) {
         switch (v.getId()){
            case R.id.locationToggle:
-               Toast.makeText(MapsActivity.this,
-                       "Switching between Address and Physical Location", Toast.LENGTH_LONG).show();
+               if (mLocationToggle){
+                   Toast.makeText(MapsActivity.this,
+                           "Switching to Physical Locations", Toast.LENGTH_LONG).show();
+               }
+               else {
+
+                       Toast.makeText(MapsActivity.this,
+                               "Switching to Addresses", Toast.LENGTH_LONG).show();
+               }
 
                mapToggle();
                 break;
@@ -328,8 +335,8 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback, View
                 mMap.addMarker(new MarkerOptions().position(location).title(name));
             }
             //mMap.addMarker(new MarkerOptions().position(mMyLocation).title("My location"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(mMyLocation));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMyLocation, 15));
+            //mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
         }
 
     }
@@ -347,7 +354,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback, View
             // May throw an IOException
 
             address = coder.getFromLocationName(strAddress, 1);
-            if (address == null) {
+            if (address.size() == 0) {
                 return null;
             }
 
