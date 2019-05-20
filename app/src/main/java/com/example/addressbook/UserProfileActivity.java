@@ -29,7 +29,7 @@ import java.util.jar.Attributes;
 
 import static java.lang.Double.parseDouble;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends Navigation {
 
     FirebaseAuth mAuth2;
     DatabaseReference userref;
@@ -45,8 +45,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState == null)
+            savedInstanceState = new Bundle();
+        savedInstanceState.putInt("ContentView",R.layout.activity_user_profile_with_navigation);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
 
         userref = FirebaseDatabase.getInstance().getReference();
 

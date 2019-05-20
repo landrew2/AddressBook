@@ -78,22 +78,22 @@ public class Navigation extends AppCompatActivity
         if (id == R.id.nav_all_contacts) {
             // Handle the emmanuel
             Toast.makeText(Navigation.this,
-                    "all contacts page Clicked", Toast.LENGTH_LONG).show();
+                    "All Contacts Page Clicked", Toast.LENGTH_LONG).show();
 
         } else if (id == R.id.nav_profile) {
-            Toast.makeText(Navigation.this,
-                    "Profile Clicked", Toast.LENGTH_LONG).show();
+           // Toast.makeText(Navigation.this,
+           //         "Profile Clicked", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getBaseContext(),UserProfileActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_map) {
-            Toast.makeText(Navigation.this,
-                    "Map Clicked", Toast.LENGTH_LONG).show();
+           // Toast.makeText(Navigation.this,
+            //        "Map Clicked", Toast.LENGTH_LONG).show();
 
             startActivity(new Intent(getBaseContext(), MapsActivity.class));
         } else if (id == R.id.nav_signout) {
-            Toast.makeText(Navigation.this,
-                    "Sign out Clicked", Toast.LENGTH_LONG).show();
+           // Toast.makeText(Navigation.this,
+           //         "Sign out Clicked", Toast.LENGTH_LONG).show();
 
             mAuth.signOut();
             startActivity(new Intent(Navigation.this, LoginActivity.class));
