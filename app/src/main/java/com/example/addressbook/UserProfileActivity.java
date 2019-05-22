@@ -94,7 +94,7 @@ public class UserProfileActivity extends Navigation {
                 PhoneNum_.setText(phone_fb);
                 Address_.setText(address_fb);
 
-                String tvLocation = ("Lat: " + locationLat + "\n" + "Long: " + locationLong);
+                String tvLocation = ("Lat: " + locationLat + "   " + "Long: " + locationLong);
                 location_.setText(tvLocation);
             }
 
